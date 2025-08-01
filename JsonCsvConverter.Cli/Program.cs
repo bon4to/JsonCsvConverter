@@ -7,39 +7,56 @@ namespace JsonCsvConverter.Cli
     {
         static void Main(string[] args)
         {
+            // Check the arguments
+            if (!IsValidArgs(args)) { return; }
+
+            // Proceed with the conversion
+            string JsonPath = ConvertCsvToJson(args);
+            if (JsonPath != "")
+            {
+                Console.WriteLine($"Conversion successful! JSON file created at: {JsonPath}");
+            }
+        }
+
+        static bool IsValidArgs(string[] args)
+        {
             if (args.Length < 1)
             {
                 Console.WriteLine("No input file specified.");
                 AskHelp();
-                return;
+                return false;
             }
             else if (args.Length > 1)
             {
                 Console.WriteLine("Too many arguments provided.");
                 AskHelp();
-                return;
+                return false;
             }
 
             if (args[0] == "--help" || args[0] == "-h")
             {
                 ShowHelp();
-                return;
+                return false;
             }
+            return true;
+        }
 
+        static string ConvertCsvToJson(string[] args)
+        {
             string csvFilePath = args[0];
             string jsonFilePath = Path.ChangeExtension(csvFilePath, ".json");
 
             if (!File.Exists(csvFilePath))
             {
                 Console.WriteLine($"Error: CSV file '{csvFilePath}' not found. Please provide a valid path.");
-                return;
+                return "";
             }
 
             Console.WriteLine($"Converting '{csvFilePath}' to '{jsonFilePath}'...");
 
             // TODO: Implement conversion logic
 
-            Console.WriteLine("Conversion completed successfully!");
+            return jsonFilePath;
         }
 
         static void AskHelp()
