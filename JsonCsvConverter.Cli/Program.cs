@@ -16,6 +16,7 @@ namespace JsonCsvConverter.Cli
             {
                 Console.WriteLine($"Conversion successful! JSON file created at: {JsonPath}");
             }
+            return;
         }
 
         static bool IsValidArgs(string[] args)
@@ -52,10 +53,36 @@ namespace JsonCsvConverter.Cli
                 return "";
             }
 
-            Console.WriteLine($"Converting '{csvFilePath}' to '{jsonFilePath}'...");
+            Console.WriteLine($"Converting '{csvFilePath}'...");
 
-            // TODO: Implement conversion logic
+            // TODO: Implement code abstraction 
+            // to make the code more readable**
 
+            string csvContent = File.ReadAllText(csvFilePath);
+
+            // Separate lines and headers
+            string[] lines = csvContent.Split("\n\n")[0] // "\n\n" separates the ghost lines
+                .Split('\n');
+
+            string[] headerCells = lines[0].Split(';');
+
+            string jsonContent = "[";
+
+            for (int i = 1; i < lines.Length; i++)
+            {
+                string[] lineCells = lines[i].Split(';');
+
+                for (int j = 0; j < headerCells.Length; j++)
+                {
+                    if (j == 0) { jsonContent += "{"; }
+                    jsonContent += $"\"{headerCells[j]}\": \"{lineCells[j]}\"";
+                    if (j == headerCells.Length - 1) { jsonContent += "}"; } else { jsonContent += ", "; }
+                }
+
+                if (i != lines.Length - 1) { jsonContent += ", "; } else { jsonContent += "]"; }
+            }
+
+            File.WriteAllText(jsonFilePath, jsonContent);
             return jsonFilePath;
         }
 
