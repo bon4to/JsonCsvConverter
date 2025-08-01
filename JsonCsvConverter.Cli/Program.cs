@@ -10,6 +10,19 @@ namespace JsonCsvConverter.Cli
             if (args.Length < 1)
             {
                 Console.WriteLine("No input file specified.");
+                AskHelp();
+                return;
+            }
+            else if (args.Length > 1)
+            {
+                Console.WriteLine("Too many arguments provided.");
+                AskHelp();
+                return;
+            }
+
+            if (args[0] == "--help" || args[0] == "-h")
+            {
+                ShowHelp();
                 return;
             }
 
@@ -27,6 +40,17 @@ namespace JsonCsvConverter.Cli
             // TODO: Implement conversion logic
 
             Console.WriteLine("Conversion completed successfully!");
+        }
+
+        static void AskHelp()
+        {
+            Console.WriteLine("Type 'dotnet run --help' for help.");
+        }
+
+        static void ShowHelp()
+        {
+            Console.WriteLine("dotnet run <path_to_csv_file>");
+            Console.WriteLine("Example: dotnet run data.csv");
         }
     }
 }
