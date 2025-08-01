@@ -7,7 +7,7 @@ namespace JsonCsvConverter.Cli
     {
         static void Main(string[] args)
         {
-            if (args.Length < 0)
+            if (args.Length < 1)
             {
                 Console.WriteLine("No input file specified.");
                 return;
