@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 
-namespace JsonToCsvConverter
+namespace JsonCsvConverter.Cli
 {
     class Program
     {
