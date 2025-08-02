@@ -95,6 +95,8 @@ namespace JsonCsvConverter.Cli
 
         static void AskHelp()
         {
+            // TODO: fix
+            // not working yet, '--help' flag trigger .net help
             Console.WriteLine("Type 'dotnet run conv --help' for help.");
         }
 
