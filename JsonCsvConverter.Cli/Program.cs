@@ -21,20 +21,27 @@ namespace JsonCsvConverter.Cli
 
         static bool IsValidArgs(string[] args)
         {
-            if (args.Length < 1)
+            if (args[0] != "conv")
+            {
+                Console.WriteLine("Invalid arguments provided.");
+                AskHelp();
+                return false;
+            }
+
+            if (args.Length < 2)
             {
                 Console.WriteLine("No input file specified.");
                 AskHelp();
                 return false;
             }
-            else if (args.Length > 1)
+            else if (args.Length > 2)
             {
                 Console.WriteLine("Too many arguments provided.");
                 AskHelp();
                 return false;
             }
 
-            if (args[0] == "--help" || args[0] == "-h")
+            if (args[1] == "--help" || args[1] == "-h")
             {
                 ShowHelp();
                 return false;
@@ -44,7 +51,7 @@ namespace JsonCsvConverter.Cli
 
         static string ConvertCsvToJson(string[] args)
         {
-            string csvFilePath = args[0];
+            string csvFilePath = args[1];
             string jsonFilePath = Path.ChangeExtension(csvFilePath, ".json");
 
             if (!File.Exists(csvFilePath))
@@ -88,13 +95,13 @@ namespace JsonCsvConverter.Cli
 
         static void AskHelp()
         {
-            Console.WriteLine("Type 'dotnet run --help' for help.");
+            Console.WriteLine("Type 'dotnet run conv --help' for help.");
         }
 
         static void ShowHelp()
         {
-            Console.WriteLine("dotnet run <path_to_csv_file>");
-            Console.WriteLine("Example: dotnet run data.csv");
+            Console.WriteLine("dotnet run conv <path_to_csv_file>");
+            Console.WriteLine("Example: dotnet run conv data.csv");
         }
     }
 }
